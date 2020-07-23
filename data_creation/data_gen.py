@@ -48,15 +48,33 @@ for i in range(len(data_features)):
 
 #'''
 clusters = cluster_extract(data_features, data_labels)
+normal = clusters.get_cluster_from_data(1)
 suspect = clusters.get_cluster_from_data(2)
 pathologic = clusters.get_cluster_from_data(3)
 
+new_normal = data_for_cluster(normal)
 new_suspect = data_for_cluster(suspect)
 new_patho = data_for_cluster(pathologic)
 
 print(row)
+# add new normal rows:
+for i in range(1800 - len(normal)):
+	row += 1
+	x = new_normal.create_row()
+	if i%50==0:
+		print(i,"rows filled for normal.", row)
+	while True:
+		if not new_normal.check_cluster_validity(x, i) or new_normal.check_datapoint_presence(x):
+			x = new_normal.create_row()
+		else:
+			break
+	for j in range(len(x)):
+		worksheet.write(row, j, x[j])
+	worksheet.write(row, 22, 1)
+
+
 # add new suspect rows:
-for i in range(1200 - len(suspect)):
+for i in range(1800 - len(suspect)):
 	row += 1
 	x = new_suspect.create_row()
 	if i%50==0:
@@ -73,7 +91,7 @@ for i in range(1200 - len(suspect)):
 
 # add new patho rows:
 print(row)
-for i in range(1200 - len(pathologic)):
+for i in range(1800 - len(pathologic)):
 	x = new_patho.create_row()
 	row += 1
 	if i%50==0:
