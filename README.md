@@ -1,1 +1,1 @@
-# Pregnency-Complication-Prediction-CTG-
+# Predicting Pregnancy related complication from Abdomenal Electrocardiography (AECG)
